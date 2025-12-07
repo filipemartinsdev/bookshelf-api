@@ -1,8 +1,7 @@
 package com.bookshelf.controller;
 
 import com.bookshelf.model.Book;
-import com.bookshelf.service.BookshelfService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.bookshelf.service.BookService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,12 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class BookshelfController {
+public class BookController {
 //    @Autowired
-    private BookshelfService bookshelfService;
+    private BookService bookService;
 
-    public BookshelfController(BookshelfService bookshelfService){
-        this.bookshelfService = bookshelfService;
+    public BookController(BookService bookshelfService){
+        this.bookService = bookshelfService;
     }
 
     @GetMapping("/v1/books")
@@ -23,10 +22,10 @@ public class BookshelfController {
         List<Book> responseList;
 
         if (query.equals("null")){
-            responseList = bookshelfService.findAll();
+            responseList = bookService.findAll();
         }
         else {
-            responseList = bookshelfService.searchByTitle(query);
+            responseList = bookService.searchByTitle(query);
         }
         if (responseList.isEmpty()){
             return ResponseEntity
@@ -43,7 +42,7 @@ public class BookshelfController {
 
     @PostMapping("/v1/books")
     public ResponseEntity<Book> bookPost(@RequestBody Book book){
-        Book responseBook = bookshelfService.save(book);
+        Book responseBook = bookService.save(book);
         if (responseBook==null){
             return ResponseEntity
                     .status(400)
@@ -55,6 +54,19 @@ public class BookshelfController {
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(responseBook);
         }
-
+    }
+    @DeleteMapping("/v1/books")
+    public ResponseEntity<Object> bookDelete(@RequestBody Book book){
+        if (bookService.existsById(book.getId())){
+            return ResponseEntity
+                    .status(404)
+                    .build();
+        }
+        else{
+            bookService.delete(book.getId());
+            return ResponseEntity
+                    .status(203)
+                    .build();
+        }
     }
 }

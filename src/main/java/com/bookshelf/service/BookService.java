@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BookshelfService {
+public class BookService {
     private BookRepository bookRepository;
 
-    public BookshelfService(BookRepository bookRepository){
+    public BookService(BookRepository bookRepository){
         this.bookRepository = bookRepository;
     }
 
@@ -23,10 +23,17 @@ public class BookshelfService {
     }
 
     public Book save(Book book){
-//        if(bookRepository.existsById(book.getId())){
-//            return null;
-//        }
+        if(bookRepository.existsById(book.getId())){
+            return null;
+        }
         return bookRepository.save(book);
     }
 
+    public boolean existsById(long id){
+        return bookRepository.existsById(id);
+    }
+
+    public void delete(long id){
+        bookRepository.deleteById(id);
+    }
 }
