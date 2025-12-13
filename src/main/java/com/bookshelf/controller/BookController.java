@@ -13,7 +13,6 @@ import java.util.Map;
 
 @RestController
 public class BookController {
-//    @Autowired
     private BookService bookService;
 
     public BookController(BookService bookshelfService){
@@ -89,8 +88,8 @@ public class BookController {
     @PatchMapping("/v1/books/{id}")
     public ResponseEntity<Book> bookPatch(@PathVariable Long id, @RequestBody Map<String, Object> bookMap){
         Book book = bookService.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Book not found"));
-
+                () -> new EntityNotFoundException("Book not found")
+        );
         try {
             bookMap.forEach((key, value) -> {
                         switch (key) {
@@ -104,8 +103,7 @@ public class BookController {
                             case "bookCover" -> book.setBookCover((String) value);
                             default -> throw new RuntimeException("Invalid attribute");
                         }
-                    }
-            );
+                    });
         } catch (Exception e){
             return ResponseEntity
                     .status(400)
