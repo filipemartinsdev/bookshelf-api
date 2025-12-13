@@ -7,5 +7,5 @@ CREATE TABLE book(
 	pages INT NOT NULL,
 	status INT REFERENCES reading_status NOT NULL,
 	rating FLOAT,
-	book_cover BYTEA NOT NULL
+	book_cover_url VARCHAR(500)
 );
