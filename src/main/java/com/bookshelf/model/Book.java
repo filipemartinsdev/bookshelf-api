@@ -34,8 +34,8 @@ public class Book {
     private int status;
 
     @Column(name="rating")
-    private float rating;
+    private Float rating;
 
-    @Column(name="book_cover")
-    private byte[] bookCover;
+    @Column(name="book_cover_url")
+    private String bookCover;
 }
