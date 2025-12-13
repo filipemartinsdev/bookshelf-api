@@ -49,6 +49,23 @@ public class BookController {
         }
     }
 
+    @GetMapping("/v1/books/{id}")
+    public ResponseEntity<Book> bookGet(@PathVariable Long id){
+        Book responseBook;
+        try {
+            responseBook = bookService.findById(id).orElseThrow(() -> new EntityNotFoundException("Book not found"));
+        }  catch (Exception e){
+            return ResponseEntity
+                    .status(400)
+                    .build();
+        }
+
+        return ResponseEntity
+                .status(200)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(responseBook);
+    }
+
     @PostMapping("/v1/books")
     public ResponseEntity<Book> bookPost(@RequestBody Book book){
         try{
