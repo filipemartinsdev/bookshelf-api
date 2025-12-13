@@ -48,6 +48,7 @@ public class BookController {
                     .status(400)
                     .build();
         }
+
         else {
             return ResponseEntity
                     .status(201)
@@ -55,6 +56,7 @@ public class BookController {
                     .body(responseBook);
         }
     }
+
     @DeleteMapping("/v1/books")
     public ResponseEntity<Object> bookDelete(@RequestBody Book book){
         if (bookService.existsById(book.getId())){

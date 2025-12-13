@@ -23,9 +23,9 @@ public class BookService {
     }
 
     public Book save(Book book){
-        if(bookRepository.existsById(book.getId())){
-            return null;
-        }
+//        if(bookRepository.existsById(book.getId())){
+//            return null;
+//        }
         return bookRepository.save(book);
     }
 
