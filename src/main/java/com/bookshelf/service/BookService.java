@@ -5,6 +5,7 @@ import com.bookshelf.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -12,6 +13,10 @@ public class BookService {
 
     public BookService(BookRepository bookRepository){
         this.bookRepository = bookRepository;
+    }
+
+    public Optional<Book> findById(Long id){
+        return bookRepository.findById(id);
     }
 
     public List<Book> findAll(){
@@ -23,9 +28,6 @@ public class BookService {
     }
 
     public Book save(Book book){
-//        if(bookRepository.existsById(book.getId())){
-//            return null;
-//        }
         return bookRepository.save(book);
     }
 

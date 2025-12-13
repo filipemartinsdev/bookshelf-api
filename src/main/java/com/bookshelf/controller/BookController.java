@@ -2,13 +2,14 @@ package com.bookshelf.controller;
 
 import com.bookshelf.model.Book;
 import com.bookshelf.service.BookService;
-import org.apache.coyote.Response;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class BookController {
@@ -83,5 +84,38 @@ public class BookController {
                     .status(400)
                     .build();
         }
+    }
+
+    @PatchMapping("/v1/books/{id}")
+    public ResponseEntity<Book> bookPatch(@PathVariable Long id, @RequestBody Map<String, Object> bookMap){
+        Book book = bookService.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Book not found"));
+
+        try {
+            bookMap.forEach((key, value) -> {
+                        switch (key) {
+                            case "title" -> book.setTitle((String) value);
+                            case "subtitle" -> book.setSubtitle((String) value);
+                            case "author" -> book.setAuthor((String) value);
+                            case "publisher" -> book.setPublisher((String) value);
+                            case "pages" -> book.setPages((Integer) value);
+                            case "status" -> book.setStatus((Integer) value);
+                            case "rating" -> book.setRating((Float) value);
+                            case "bookCover" -> book.setBookCover((String) value);
+                            default -> throw new RuntimeException("Invalid attribute");
+                        }
+                    }
+            );
+        } catch (Exception e){
+            return ResponseEntity
+                    .status(400)
+                    .build();
+        }
+
+        Book bookSaved = bookService.save(book);
+        return ResponseEntity
+                .status(200)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(bookSaved);
     }
 }
