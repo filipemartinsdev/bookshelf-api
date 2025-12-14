@@ -19,6 +19,13 @@ public class BookController {
         this.bookService = bookshelfService;
     }
 
+    @GetMapping("/")
+    public ResponseEntity<String> bookHome(){
+        return ResponseEntity
+                .status(200)
+                .body("HOME - BOOKSHELF API");
+    }
+
     @GetMapping("/v1/books")
     public ResponseEntity<List<Book>> bookGet(@RequestParam(name="query", defaultValue="null") String query){
         List<Book> responseList = new ArrayList<>();
