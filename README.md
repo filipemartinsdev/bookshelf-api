@@ -39,6 +39,6 @@ API RESTful para gerenciamento de informações sobre livros. Este projeto foi d
 - [x] CRUD com Postgresql.
 - [x] Imagens em nuvem no Imgur.
 - [ ] Deploy no Railways.
-- [ ] Deploy no Supabase.
+- [x] Deploy no Supabase.
 - [ ] Migrations com flyway.
 - [ ] Refatorar operações para melhor desempenho.
