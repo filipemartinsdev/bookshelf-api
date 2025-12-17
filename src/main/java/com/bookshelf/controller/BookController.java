@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 @RestController
+@RequestMapping("/")
 public class BookController {
     private BookService bookService;
 
@@ -19,7 +21,7 @@ public class BookController {
         this.bookService = bookshelfService;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<String> bookHome(){
         return ResponseEntity
                 .status(200)
